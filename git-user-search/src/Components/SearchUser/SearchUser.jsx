@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import debounce from "lodash.debounce";
 import "./SearchUser.css";
 const SearchUser = React.memo(() => {
   const [items, setRepoList] = useState([]);
-  const [userInput, setUserInput] = useState("");
-
+  const [searchTerm, setSearchTerm] = useState("");
+  const [foundUser, setFoundUser] = useState([]);
   useEffect(() => {
     getRepoName();
   }, []);
@@ -23,6 +23,7 @@ const SearchUser = React.memo(() => {
       .then((res) => res.json())
       .then((data) => {
         setRepoList(data);
+        setFoundUser(data);
       })
       .catch((err) => {
         console.log(err);
@@ -32,15 +33,26 @@ const SearchUser = React.memo(() => {
   //console.log("RepoList>>", items);
 
   const handleUserInput = (e) => {
-    console.log("user>>", e.target.value);
-    setUserInput(e.target.value);
+    const keyword = e.target.value;
+    if (keyword !== "") {
+      console.log("keyword>>", keyword);
+      const result = items.filter((item, index) => {
+        console.log("items>>", index, ">>>", item);
+        return item.login.toLowerCase().startsWith(keyword.toLowerCase());
+      });
+      console.log("result", result);
+      setFoundUser(result);
+      console.log("foundUser>.", foundUser);
+    } else {
+      setFoundUser(items);
+    }
+    setSearchTerm(keyword);
   };
 
   const debouncedChangeHandler = useCallback(
     debounce(handleUserInput, 3000),
     []
   );
-
   //   if (userInput !== "") {
   //     listToDisplay = fruits.filter((fruit) => {
   //       return fruit.includes(userInput);
@@ -74,9 +86,9 @@ const SearchUser = React.memo(() => {
               </tr>
             );
           })} */}
-          {items && items.length > 0
+          {foundUser && foundUser.length > 0
             ? React.Children.toArray(
-                items.map((i) => {
+                foundUser.map((i) => {
                   return (
                     <tr>
                       <td>{i.login}</td>
