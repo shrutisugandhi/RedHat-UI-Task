@@ -1,0 +1,14 @@
+.Repo_List {
+    border: 1px solid;
+    border-collapse: collapse;
+    width: 90%;
+    margin: 10px auto;
+}
+
+th,
+td {
+    border: 1px solid;
+    border-collapse: collapse;
+    text-align: justify;
+    padding: 10px;
+}
