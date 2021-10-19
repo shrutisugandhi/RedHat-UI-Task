@@ -12,3 +12,35 @@ td {
     text-align: justify;
     padding: 10px;
 }
+
+.owner_details {
+    display: flex;
+    justify-content: space-between;
+}
+
+.owner_img {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+}
+
+.owner_name {
+    text-transform: capitalize;
+    display: inline-block;
+    width: 10rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.search_block {
+    margin: 2% 4%;
+    text-align: left;
+}
+
+.search_block input[type="text" i] {
+    width: 20%;
+    border-radius: 6px;
+    padding: 6px;
+    border: 1px solid darkslategrey;
+}
